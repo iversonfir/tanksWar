@@ -4,14 +4,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameClient extends JComponent
 {
     private final Tank tank;
+    private final List<Tank> enemies;
 
     public GameClient()
     {
-        this.tank = new Tank(400, 300, Direction.DOWN);
+        this.enemies = new ArrayList<>(12);
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                enemies.add(new Tank(300 + j * 50, 400 + 40 * i, Direction.UP,true));
+            }
+        }
+        this.tank = new Tank(400, 100, Direction.DOWN);
         this.setPreferredSize(new Dimension(800, 600));
     }
 
@@ -19,6 +30,10 @@ public class GameClient extends JComponent
     protected void paintComponent(Graphics g)
     {
         tank.draw(g);
+        for (Tank enemy : enemies)
+        {
+            enemy.draw(g);
+        }
     }
 
     public static void main(String[] args)
