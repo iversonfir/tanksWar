@@ -36,7 +36,6 @@ public class GameClient extends JComponent
             public void keyPressed(KeyEvent e)
             {
                 client.tank.keyPressed(e);
-                client.repaint();
             }
 
             @Override
@@ -47,5 +46,17 @@ public class GameClient extends JComponent
         });
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+        while (true)
+        {
+            client.repaint();
+            try
+            {
+                Thread.sleep(50);
+            } catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 }
