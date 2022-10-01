@@ -17,7 +17,7 @@ public class GameClient extends JComponent
     @Override
     protected void paintComponent(Graphics g)
     {
-        g.drawImage(tank.getImage(), tank.getX(), tank.getY(), null);
+        tank.draw(g);
     }
 
     public static void main(String[] args)
@@ -34,25 +34,7 @@ public class GameClient extends JComponent
             @Override
             public void keyPressed(KeyEvent e)
             {
-                switch (e.getKeyCode())
-                {
-                    case KeyEvent.VK_UP:
-                        client.tank.setY(client.tank.getY() - 5);
-                        client.tank.setDirection(Direction.UP);
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        client.tank.setY(client.tank.getY() + 5);
-                        client.tank.setDirection(Direction.DOWN);
-                        break;
-                    case KeyEvent.VK_LEFT:
-                        client.tank.setX(client.tank.getX() - 5);
-                        client.tank.setDirection(Direction.LEFT);
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        client.tank.setX(client.tank.getX() + 5);
-                        client.tank.setDirection(Direction.RIGHT);
-                        break;
-                }
+                client.tank.move(e);
                 client.repaint();
             }
         });

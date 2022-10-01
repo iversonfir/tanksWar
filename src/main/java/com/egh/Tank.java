@@ -2,6 +2,7 @@ package com.egh;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class Tank
 {
@@ -32,28 +33,31 @@ public class Tank
         return null;
     }
 
-    public int getX()
+    public void move(KeyEvent e)
     {
-        return x;
+        switch (e.getKeyCode())
+        {
+            case KeyEvent.VK_UP:
+                y -= 5;
+                direction = Direction.UP;
+                break;
+            case KeyEvent.VK_DOWN:
+                y += 5;
+                direction = Direction.DOWN;
+                break;
+            case KeyEvent.VK_LEFT:
+                x -= 5;
+                direction = Direction.LEFT;
+                break;
+            case KeyEvent.VK_RIGHT:
+                x += 5;
+                direction = Direction.RIGHT;
+                break;
+        }
     }
 
-    public void setX(int x)
+    public void draw(Graphics g)
     {
-        this.x = x;
-    }
-
-    public int getY()
-    {
-        return y;
-    }
-
-    public void setY(int y)
-    {
-        this.y = y;
-    }
-
-    public void setDirection(Direction direction)
-    {
-        this.direction = direction;
+        g.drawImage(getImage(), x, y, null);
     }
 }
