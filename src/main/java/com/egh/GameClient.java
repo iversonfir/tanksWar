@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 public class GameClient extends JComponent
 {
     private final Tank tank;
+
     public GameClient()
     {
         this.tank = new Tank(400, 300, Direction.DOWN);
@@ -34,8 +35,14 @@ public class GameClient extends JComponent
             @Override
             public void keyPressed(KeyEvent e)
             {
-                client.tank.move(e);
+                client.tank.keyPressed(e);
                 client.repaint();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e)
+            {
+                client.tank.keyReleased(e);
             }
         });
         frame.setLocationRelativeTo(null);
