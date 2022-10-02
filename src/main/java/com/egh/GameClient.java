@@ -5,25 +5,44 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class GameClient extends JComponent
 {
     private final Tank tank;
     private final List<Tank> enemies;
+    private final List<Wall> walls;
 
     public GameClient()
     {
-        this.enemies = new ArrayList<>(12);
-        for (int i = 0; i < 3; i++)
+        this.tank = new Tank(400, 100, Direction.DOWN);
+        this.enemies = enemiesCreate(3, 5);
+        this.walls = wallsCreate();
+        this.setPreferredSize(new Dimension(800, 600));
+    }
+
+    private List<Wall> wallsCreate()
+    {
+        return Arrays.asList(
+                new Wall(200, 140, true, 15),
+                new Wall(200, 540, true, 15),
+                new Wall(100, 80, false, 15),
+                new Wall(700, 80, false, 15)
+        );
+    }
+
+    private List<Tank> enemiesCreate(int raw, int column)
+    {
+        List<Tank> tanks = new ArrayList<>();
+        for (int i = 0; i < raw; i++)
         {
-            for (int j = 0; j < 5; j++)
+            for (int j = 0; j < column; j++)
             {
-                enemies.add(new Tank(300 + j * 50, 400 + 40 * i, Direction.UP,true));
+                tanks.add(new Tank(300 + j * 50, 400 + 40 * i, Direction.UP, true));
             }
         }
-        this.tank = new Tank(400, 100, Direction.DOWN);
-        this.setPreferredSize(new Dimension(800, 600));
+        return tanks;
     }
 
     @Override
@@ -33,6 +52,10 @@ public class GameClient extends JComponent
         for (Tank enemy : enemies)
         {
             enemy.draw(g);
+        }
+        for (Wall wall : walls)
+        {
+            wall.draw(g);
         }
     }
 
