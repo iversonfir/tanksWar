@@ -20,7 +20,7 @@ public class Wall
 
     public void draw(Graphics g)
     {
-        Image brickImage = new ImageIcon("assets/images/brick.png").getImage();
+        Image brickImage = Utils.getImage("brick.png");
         for (int i = 0; i < bricks; i++)
         {
             if (horizontal)

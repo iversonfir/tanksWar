@@ -1,6 +1,5 @@
 package com.egh;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -30,21 +29,21 @@ public class Tank
         switch (direction)
         {
             case UP:
-                return new ImageIcon("assets/images/"+prefix+"tankU.gif").getImage();
+                return Utils.getImage(prefix + "tankU.gif");
             case DOWN:
-                return new ImageIcon("assets/images/"+prefix+"tankD.gif").getImage();
+                return Utils.getImage(prefix + "tankD.gif");
             case LEFT:
-                return new ImageIcon("assets/images/"+prefix+"tankL.gif").getImage();
+                return Utils.getImage(prefix + "tankL.gif");
             case RIGHT:
-                return new ImageIcon("assets/images/"+prefix+"tankR.gif").getImage();
+                return Utils.getImage(prefix + "tankR.gif");
             case UP_LEFT:
-                return new ImageIcon("assets/images/"+prefix+"tankLU.gif").getImage();
+                return Utils.getImage(prefix + "tankLU.gif");
             case UP_RIGHT:
-                return new ImageIcon("assets/images/"+prefix+"tankRU.gif").getImage();
+                return Utils.getImage(prefix + "tankRU.gif");
             case DOWN_LEFT:
-                return new ImageIcon("assets/images/"+prefix+"tankLD.gif").getImage();
+                return Utils.getImage(prefix + "tankLD.gif");
             case DOWN_RIGHT:
-                return new ImageIcon("assets/images/"+prefix+"tankRD.gif").getImage();
+                return Utils.getImage(prefix + "tankRD.gif");
         }
         return null;
     }

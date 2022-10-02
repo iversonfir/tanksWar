@@ -65,7 +65,7 @@ public class GameClient extends JComponent
         frame.setTitle("坦克大戰");
         GameClient client = new GameClient();
         frame.add(client);
-        frame.setIconImage(new ImageIcon("assets/images/icon.png").getImage());
+        frame.setIconImage(Utils.getImage("icon.png"));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.addKeyListener(new KeyAdapter()
