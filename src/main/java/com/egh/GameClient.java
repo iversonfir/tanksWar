@@ -48,6 +48,8 @@ public class GameClient extends JComponent
     @Override
     protected void paintComponent(Graphics g)
     {
+        g.setColor(Color.BLACK);
+        g.fillRect(0,0,800,600);
         tank.draw(g);
         for (Tank enemy : enemies)
         {
