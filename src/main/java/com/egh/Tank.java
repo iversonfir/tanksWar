@@ -81,6 +81,16 @@ public class Tank
             }
         }
 
+        for (Tank tank : GameClient.getInstance().getEnemies())
+        {
+            if (rectangle.intersects(tank.getRectangle()))
+            {
+                y = oldY;
+                x = oldX;
+                break;
+            }
+        }
+
         g.drawImage(getImage(), x, y, null);
     }
 

@@ -27,6 +27,11 @@ public class GameClient extends JComponent
         return walls;
     }
 
+    public List<Tank> getEnemies()
+    {
+        return enemies;
+    }
+
     public GameClient()
     {
         this.tank = new Tank(400, 100, Direction.DOWN);
