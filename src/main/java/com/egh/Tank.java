@@ -8,7 +8,7 @@ public class Tank
     private int x;
     private int y;
     private Direction direction;
-    private boolean isEnemy;
+    private final boolean isEnemy;
 
     public Tank(int x, int y, Direction direction)
     {
@@ -52,6 +52,23 @@ public class Tank
     {
         determinedDirection();
         move();
+
+        int tankWidth = getImage().getWidth(null);
+        int tankHeight = getImage().getHeight(null);
+
+        if (x < 0) x = 0;
+        if (x > 800 - tankWidth)
+        {
+            x = 800 - tankWidth;
+        }
+
+        if (y < 0) y = 0;
+
+        if (y > 600 - tankHeight)
+        {
+            y = 600 - tankHeight;
+        }
+
         g.drawImage(getImage(), x, y, null);
     }
 
