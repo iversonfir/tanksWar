@@ -1,6 +1,5 @@
 package com.egh;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class Wall
@@ -9,18 +8,30 @@ public class Wall
     private final int y;
     private final boolean horizontal;
     private final int bricks;
+    private final Image brickImage;
 
     public Wall(int x, int y, boolean horizontal, int bricks)
     {
+        this.brickImage = Utils.getImage("brick.png");
         this.x = x;
         this.y = y;
         this.horizontal = horizontal;
         this.bricks = bricks;
     }
 
+    public Rectangle getRectangle()
+    {
+        return horizontal
+                ? new Rectangle(x, y,
+                bricks * brickImage.getWidth(null),
+                brickImage.getHeight(null))
+                : new Rectangle(x, y,
+                brickImage.getWidth(null),
+                brickImage.getHeight(null));
+    }
+
     public void draw(Graphics g)
     {
-        Image brickImage = Utils.getImage("brick.png");
         for (int i = 0; i < bricks; i++)
         {
             if (horizontal)

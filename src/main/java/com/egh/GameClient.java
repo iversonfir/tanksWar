@@ -10,9 +10,22 @@ import java.util.List;
 
 public class GameClient extends JComponent
 {
+
+    private static final GameClient INSTANCE = new GameClient();
+
+    public static GameClient getInstance()
+    {
+        return INSTANCE;
+    }
+
     private final Tank tank;
     private final List<Tank> enemies;
     private final List<Wall> walls;
+
+    public List<Wall> getWalls()
+    {
+        return walls;
+    }
 
     public GameClient()
     {
@@ -49,7 +62,7 @@ public class GameClient extends JComponent
     protected void paintComponent(Graphics g)
     {
         g.setColor(Color.BLACK);
-        g.fillRect(0,0,800,600);
+        g.fillRect(0, 0, 800, 600);
         tank.draw(g);
         for (Tank enemy : enemies)
         {

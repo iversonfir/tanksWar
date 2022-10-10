@@ -50,6 +50,7 @@ public class Tank
 
     public void draw(Graphics g)
     {
+        int oldX = x, oldY = y;
         determinedDirection();
         move();
 
@@ -69,7 +70,23 @@ public class Tank
             y = 600 - tankHeight;
         }
 
+        Rectangle rectangle = getRectangle();
+        for (Wall wall : GameClient.getInstance().getWalls())
+        {
+            if (rectangle.intersects(wall.getRectangle()))
+            {
+                y = oldY;
+                x = oldX;
+                break;
+            }
+        }
+
         g.drawImage(getImage(), x, y, null);
+    }
+
+    private Rectangle getRectangle()
+    {
+        return new Rectangle(x, y, getImage().getWidth(null), getImage().getHeight(null));
     }
 
     private boolean up, down, left, right;
