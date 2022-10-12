@@ -28,9 +28,16 @@ public class GameClient extends JComponent
         return walls;
     }
 
-    public List<Missile> getMissiles()
+    //TODO 為啥要加 Sync
+    public void add(Missile missile)
     {
-        return missiles;
+        missiles.add(missile);
+    }
+
+
+    public void remove(Missile missile)
+    {
+        missiles.remove(missile);
     }
 
     public List<Tank> getEnemies()
@@ -42,7 +49,7 @@ public class GameClient extends JComponent
     {
         this.tank = new Tank(400, 100, Direction.DOWN);
         this.enemies = enemiesCreate(3, 5);
-        this.missiles=new ArrayList<>();
+        this.missiles = new ArrayList<>();
         this.walls = wallsCreate();
         this.setPreferredSize(new Dimension(800, 600));
     }
@@ -84,6 +91,7 @@ public class GameClient extends JComponent
         {
             wall.draw(g);
         }
+        missiles.removeIf(m -> !m.isLive());
         for (Missile missile : missiles)
         {
             missile.draw(g);
@@ -127,5 +135,10 @@ public class GameClient extends JComponent
                 e.printStackTrace();
             }
         }
+    }
+
+    public Tank getTank()
+    {
+        return tank;
     }
 }

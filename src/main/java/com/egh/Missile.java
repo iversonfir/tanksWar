@@ -6,15 +6,16 @@ public class Missile
 {
     private int x;
     private int y;
-    private boolean isEnemy;
+    private boolean enemy;
     private Direction direction;
     private final static int SPEED = 12;
+    private boolean live = true;
 
-    public Missile(int x, int y, boolean isEnemy, Direction direction)
+    public Missile(int x, int y, boolean enemy, Direction direction)
     {
         this.x = x;
         this.y = y;
-        this.isEnemy = isEnemy;
+        this.enemy = enemy;
         this.direction = direction;
     }
 
@@ -34,8 +35,30 @@ public class Missile
         move();
         if (x > 800 || x < 0 || y < 0 || y > 600)
         {
+            live = false;
             return;
         }
+
+        Rectangle rectangle = getRectangle();
+        for (Wall wall : GameClient.getInstance().getWalls())
+        {
+            if (rectangle.intersects(wall.getRectangle()))
+            {
+                live = false;
+                return;
+            }
+        }
+
         g.drawImage(getImage(), x, y, null);
+    }
+
+    private Rectangle getRectangle()
+    {
+        return new Rectangle(x, y, getImage().getWidth(null), getImage().getHeight(null));
+    }
+
+    public boolean isLive()
+    {
+        return live;
     }
 }
