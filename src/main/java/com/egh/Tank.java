@@ -122,14 +122,29 @@ public class Tank
             case KeyEvent.VK_CONTROL:
                 fire();
                 break;
+            case KeyEvent.VK_A:
+                superFire();
+                break;
+        }
+    }
+
+    private void superFire()
+    {
+        for (Direction direction : Direction.values())
+        {
+            Missile missile = new Missile(
+                    x + getImage().getWidth(null) / 2 - 6,
+                    y + getImage().getHeight(null) / 2 - 6,
+                    isEnemy, direction);
+            GameClient.getInstance().getMissiles().add(missile);
         }
     }
 
     private void fire()
     {
         Missile missile = new Missile(
-                x + getImage().getWidth(null) / 2-6,
-                y + getImage().getHeight(null) / 2-6,
+                x + getImage().getWidth(null) / 2 - 6,
+                y + getImage().getHeight(null) / 2 - 6,
                 isEnemy, direction);
         GameClient.getInstance().getMissiles().add(missile);
     }
