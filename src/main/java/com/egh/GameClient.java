@@ -18,8 +18,8 @@ public class GameClient extends JComponent
         return INSTANCE;
     }
 
-    private final Tank tank;
-    private final List<Tank> enemies;
+    private Tank tank;
+    private List<Tank> enemies;
     private final List<Wall> walls;
     private final List<Missile> missiles;
 
@@ -41,10 +41,10 @@ public class GameClient extends JComponent
 
     public GameClient()
     {
-        this.tank = new Tank(400, 100, Direction.DOWN);
-        this.enemies = enemiesCreate(3, 5);
+        tankInit();
         this.missiles = new ArrayList<>();
         this.walls = wallsCreate();
+        enemiesInit(3, 5);
         this.setPreferredSize(new Dimension(800, 600));
     }
 
@@ -58,17 +58,16 @@ public class GameClient extends JComponent
         );
     }
 
-    private List<Tank> enemiesCreate(int raw, int column)
+    private void enemiesInit(int raw, int column)
     {
-        List<Tank> tanks = new ArrayList<>();
+        enemies = new ArrayList<>();
         for (int i = 0; i < raw; i++)
         {
             for (int j = 0; j < column; j++)
             {
-                tanks.add(new Tank(300 + j * 50, 400 + 40 * i, Direction.UP, true));
+                enemies.add(new Tank(300 + j * 50, 400 + 40 * i, Direction.UP, true));
             }
         }
-        return tanks;
     }
 
     @Override
@@ -78,6 +77,11 @@ public class GameClient extends JComponent
         g.fillRect(0, 0, 800, 600);
         tank.draw(g);
         enemies.removeIf(t -> !t.isLive());
+        if (enemies.isEmpty())
+        {
+            restart();
+        }
+
         for (Tank enemy : enemies)
         {
             enemy.draw(g);
@@ -91,6 +95,17 @@ public class GameClient extends JComponent
         {
             missile.draw(g);
         }
+    }
+
+    private void restart()
+    {
+        enemiesInit(3, 5);
+        tankInit();
+    }
+
+    private void tankInit()
+    {
+        tank = new Tank(400, 100, Direction.DOWN);
     }
 
     public static void main(String[] args)
