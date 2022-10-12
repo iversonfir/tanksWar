@@ -9,6 +9,7 @@ public class Tank
     private int y;
     private Direction direction;
     private final boolean isEnemy;
+    private final static int SPEED = 5;
 
     public Tank(int x, int y, Direction direction)
     {
@@ -152,37 +153,8 @@ public class Tank
     void move()
     {
         if (stopped) return;
-        switch (direction)
-        {
-            case UP:
-                y -= 5;
-                break;
-            case DOWN:
-                y += 5;
-                break;
-            case LEFT:
-                x -= 5;
-                break;
-            case RIGHT:
-                x += 5;
-                break;
-            case LEFT_UP:
-                y -= 5;
-                x -= 5;
-                break;
-            case RIGHT_UP:
-                y -= 5;
-                x += 5;
-                break;
-            case LEFT_DOWN:
-                y += 5;
-                x -= 5;
-                break;
-            case RIGHT_DOWN:
-                y += 5;
-                x += 5;
-                break;
-        }
+        x += direction.x * SPEED;
+        y += direction.y * SPEED;
     }
 
     private void determinedDirection()
