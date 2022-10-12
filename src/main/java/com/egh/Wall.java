@@ -23,11 +23,11 @@ public class Wall
     {
         return horizontal
                 ? new Rectangle(x, y,
-                bricks * brickImage.getWidth(null),
+                brickImage.getWidth(null) * bricks,
                 brickImage.getHeight(null))
                 : new Rectangle(x, y,
                 brickImage.getWidth(null),
-                brickImage.getHeight(null));
+                brickImage.getHeight(null) * bricks);
     }
 
     public void draw(Graphics g)
