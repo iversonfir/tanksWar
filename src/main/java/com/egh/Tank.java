@@ -26,26 +26,7 @@ public class Tank
     public Image getImage()
     {
         String prefix = isEnemy ? "e" : "";
-        switch (direction)
-        {
-            case UP:
-                return Utils.getImage(prefix + "tankU.gif");
-            case DOWN:
-                return Utils.getImage(prefix + "tankD.gif");
-            case LEFT:
-                return Utils.getImage(prefix + "tankL.gif");
-            case RIGHT:
-                return Utils.getImage(prefix + "tankR.gif");
-            case UP_LEFT:
-                return Utils.getImage(prefix + "tankLU.gif");
-            case UP_RIGHT:
-                return Utils.getImage(prefix + "tankRU.gif");
-            case DOWN_LEFT:
-                return Utils.getImage(prefix + "tankLD.gif");
-            case DOWN_RIGHT:
-                return Utils.getImage(prefix + "tankRD.gif");
-        }
-        return null;
+        return direction.getImage(prefix + "tank");
     }
 
     public void draw(Graphics g)
@@ -185,19 +166,19 @@ public class Tank
             case RIGHT:
                 x += 5;
                 break;
-            case UP_LEFT:
+            case LEFT_UP:
                 y -= 5;
                 x -= 5;
                 break;
-            case UP_RIGHT:
+            case RIGHT_UP:
                 y -= 5;
                 x += 5;
                 break;
-            case DOWN_LEFT:
+            case LEFT_DOWN:
                 y += 5;
                 x -= 5;
                 break;
-            case DOWN_RIGHT:
+            case RIGHT_DOWN:
                 y += 5;
                 x += 5;
                 break;
@@ -216,10 +197,10 @@ public class Tank
             else if (!up && down && !left && !right) direction = Direction.DOWN;
             else if (!up && !down && left && !right) direction = Direction.LEFT;
             else if (!up && !down && !left && right) direction = Direction.RIGHT;
-            else if (up && !down && left && !right) direction = Direction.UP_LEFT;
-            else if (up && !down && !left && right) direction = Direction.UP_RIGHT;
-            else if (!up && down && left && !right) direction = Direction.DOWN_LEFT;
-            else if (!up && down && !left && right) direction = Direction.DOWN_RIGHT;
+            else if (up && !down && left && !right) direction = Direction.LEFT_UP;
+            else if (up && !down && !left && right) direction = Direction.RIGHT_UP;
+            else if (!up && down && left && !right) direction = Direction.LEFT_DOWN;
+            else if (!up && down && !left && right) direction = Direction.RIGHT_DOWN;
 
             stopped = false;
         }

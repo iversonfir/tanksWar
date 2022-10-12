@@ -20,26 +20,7 @@ public class Missile
 
     public Image getImage()
     {
-        switch (direction)
-        {
-            case UP:
-                return Utils.getImage("missileU.gif");
-            case DOWN:
-                return Utils.getImage("missileD.gif");
-            case LEFT:
-                return Utils.getImage("missileL.gif");
-            case RIGHT:
-                return Utils.getImage("missileR.gif");
-            case UP_LEFT:
-                return Utils.getImage("missileLU.gif");
-            case UP_RIGHT:
-                return Utils.getImage("missileRU.gif");
-            case DOWN_LEFT:
-                return Utils.getImage("missileLD.gif");
-            case DOWN_RIGHT:
-                return Utils.getImage("missileRD.gif");
-        }
-        return null;
+        return direction.getImage("missile");
     }
 
     void move()
@@ -58,19 +39,19 @@ public class Missile
             case RIGHT:
                 x += SPEED;
                 break;
-            case UP_LEFT:
+            case LEFT_UP:
                 y -= SPEED;
                 x -= SPEED;
                 break;
-            case UP_RIGHT:
+            case RIGHT_UP:
                 y -= SPEED;
                 x += SPEED;
                 break;
-            case DOWN_LEFT:
+            case LEFT_DOWN:
                 y += SPEED;
                 x -= SPEED;
                 break;
-            case DOWN_RIGHT:
+            case RIGHT_DOWN:
                 y += SPEED;
                 x += SPEED;
                 break;
