@@ -49,6 +49,32 @@ public class Missile
             }
         }
 
+        if (enemy)
+        {
+            Tank tank = GameClient.getInstance().getTank();
+            if (rectangle.intersects(tank.getRectangle()))
+            {
+                tank.setHp(tank.getHp() - 20);
+                if (tank.getHp() <= 0)
+                {
+                    tank.setLive(false);
+                }
+                live = false;
+            }
+        }
+        else
+        {
+            for (Tank tank : GameClient.getInstance().getEnemies())
+            {
+                if (rectangle.intersects(tank.getRectangle()))
+                {
+                    tank.setLive(false);
+                    live = false;
+                    break;
+                }
+            }
+        }
+
         g.drawImage(getImage(), x, y, null);
     }
 

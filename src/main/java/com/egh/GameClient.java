@@ -34,12 +34,6 @@ public class GameClient extends JComponent
         missiles.add(missile);
     }
 
-
-    public void remove(Missile missile)
-    {
-        missiles.remove(missile);
-    }
-
     public List<Tank> getEnemies()
     {
         return enemies;
@@ -83,6 +77,7 @@ public class GameClient extends JComponent
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, 800, 600);
         tank.draw(g);
+        enemies.removeIf(t -> !t.isLive());
         for (Tank enemy : enemies)
         {
             enemy.draw(g);

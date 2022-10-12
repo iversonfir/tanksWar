@@ -8,25 +8,27 @@ public class Tank
     private int x;
     private int y;
     private Direction direction;
-    private final boolean isEnemy;
+    private final boolean enemy;
     private final static int SPEED = 5;
+    private boolean live = true;
+    private int hp = 100;
 
     public Tank(int x, int y, Direction direction)
     {
         this(x, y, direction, false);
     }
 
-    public Tank(int x, int y, Direction direction, boolean isEnemy)
+    public Tank(int x, int y, Direction direction, boolean enemy)
     {
         this.x = x;
         this.y = y;
         this.direction = direction;
-        this.isEnemy = isEnemy;
+        this.enemy = enemy;
     }
 
     public Image getImage()
     {
-        String prefix = isEnemy ? "e" : "";
+        String prefix = enemy ? "e" : "";
         return direction.getImage(prefix + "tank");
     }
 
@@ -76,7 +78,7 @@ public class Tank
         g.drawImage(getImage(), x, y, null);
     }
 
-    private Rectangle getRectangle()
+    Rectangle getRectangle()
     {
         return new Rectangle(x, y, getImage().getWidth(null), getImage().getHeight(null));
     }
@@ -117,8 +119,8 @@ public class Tank
             Missile missile = new Missile(
                     x + getImage().getWidth(null) / 2 - 6,
                     y + getImage().getHeight(null) / 2 - 6,
-                    isEnemy, direction);
-            GameClient.getInstance().getMissiles().add(missile);
+                    enemy, direction);
+            GameClient.getInstance().add(missile);
         }
     }
 
@@ -127,8 +129,8 @@ public class Tank
         Missile missile = new Missile(
                 x + getImage().getWidth(null) / 2 - 6,
                 y + getImage().getHeight(null) / 2 - 6,
-                isEnemy, direction);
-        GameClient.getInstance().getMissiles().add(missile);
+                enemy, direction);
+        GameClient.getInstance().add(missile);
     }
 
     public void keyReleased(KeyEvent e)
@@ -176,5 +178,30 @@ public class Tank
 
             stopped = false;
         }
+    }
+
+    public boolean isEnemy()
+    {
+        return enemy;
+    }
+
+    public boolean isLive()
+    {
+        return live;
+    }
+
+    public void setLive(boolean live)
+    {
+        this.live = live;
+    }
+
+    public void setHp(int hp)
+    {
+        this.hp = hp;
+    }
+
+    public int getHp()
+    {
+        return hp;
     }
 }
