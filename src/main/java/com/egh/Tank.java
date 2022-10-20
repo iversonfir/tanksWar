@@ -71,6 +71,7 @@ public class Tank
 
         for (Tank tank : GameClient.getInstance().getEnemies())
         {
+            //敵人與自己以外相撞 會停止,所以原本才會一直停住
             if (tank != this && rectangle.intersects(tank.getRectangle()))
             {
                 y = oldY;
@@ -79,6 +80,7 @@ public class Tank
             }
         }
 
+        //敵人撞到我要停下來
         if (this.enemy && rectangle.intersects(GameClient.getInstance().getTank().getRectangle()))
         {
             y = oldY;
