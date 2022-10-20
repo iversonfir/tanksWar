@@ -87,6 +87,16 @@ public class Tank
             x = oldX;
         }
 
+        if (!enemy)
+        {
+            g.setColor(Color.WHITE);
+            g.fillRect(x, y - 10, getImage().getWidth(null), 10);
+
+            g.setColor(Color.RED);
+            int width = hp * getImage().getWidth(null) / 100;
+            g.fillRect(x, y - 10, width, 10);
+        }
+
         g.drawImage(getImage(), x, y, null);
     }
 
@@ -120,6 +130,9 @@ public class Tank
                 break;
             case KeyEvent.VK_A:
                 superFire();
+                break;
+            case KeyEvent.VK_F2:
+                GameClient.getInstance().restart();
                 break;
         }
     }

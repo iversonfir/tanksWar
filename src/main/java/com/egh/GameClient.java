@@ -81,34 +81,47 @@ public class GameClient extends JComponent
     {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, 800, 600);
-        tank.draw(g);
-        enemies.removeIf(t -> !t.isLive());
-        if (enemies.isEmpty())
-        {
-            restart();
-        }
 
-        for (Tank enemy : enemies)
+        if (!tank.isLive())
         {
-            enemy.draw(g);
+            g.setColor(Color.RED);
+            g.setFont(new Font(null, Font.BOLD, 100));
+            g.drawString("Game Over", 100, 200);
+
+            g.setFont(new Font(null, Font.BOLD, 60));
+            g.drawString("Press F2 Restart", 130, 360);
         }
-        for (Wall wall : walls)
+        else
         {
-            wall.draw(g);
-        }
-        missiles.removeIf(m -> !m.isLive());
-        for (Missile missile : missiles)
-        {
-            missile.draw(g);
-        }
-        explosions.removeIf(e -> !e.isLive());
-        for (Explosion explosion : explosions)
-        {
-            explosion.draw(g);
+            tank.draw(g);
+            enemies.removeIf(t -> !t.isLive());
+            if (enemies.isEmpty())
+            {
+                restart();
+            }
+
+            for (Tank enemy : enemies)
+            {
+                enemy.draw(g);
+            }
+            for (Wall wall : walls)
+            {
+                wall.draw(g);
+            }
+            missiles.removeIf(m -> !m.isLive());
+            for (Missile missile : missiles)
+            {
+                missile.draw(g);
+            }
+            explosions.removeIf(e -> !e.isLive());
+            for (Explosion explosion : explosions)
+            {
+                explosion.draw(g);
+            }
         }
     }
 
-    private void restart()
+    public void restart()
     {
         enemiesInit(3, 5);
         tankInit();
@@ -148,9 +161,12 @@ public class GameClient extends JComponent
         while (true)
         {
             client.repaint();
-            for (Tank tank : client.enemies)
+            if (client.tank.isLive())
             {
-                tank.randomMove();
+                for (Tank tank : client.enemies)
+                {
+                    tank.randomMove();
+                }
             }
             try
             {
