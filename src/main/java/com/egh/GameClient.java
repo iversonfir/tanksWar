@@ -29,7 +29,6 @@ public class GameClient extends JComponent
         return walls;
     }
 
-    //TODO 為啥要加 Sync
     public void add(Missile missile)
     {
         missiles.add(missile);
@@ -149,6 +148,10 @@ public class GameClient extends JComponent
         while (true)
         {
             client.repaint();
+            for (Tank tank : client.enemies)
+            {
+                tank.randomMove();
+            }
             try
             {
                 Thread.sleep(50);

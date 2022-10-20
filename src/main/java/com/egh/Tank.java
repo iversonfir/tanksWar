@@ -2,6 +2,7 @@ package com.egh;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 public class Tank
 {
@@ -35,7 +36,10 @@ public class Tank
     public void draw(Graphics g)
     {
         int oldX = x, oldY = y;
-        determinedDirection();
+        if (!isEnemy())
+        {
+            determinedDirection();
+        }
         move();
 
         int tankWidth = getImage().getWidth(null);
@@ -67,12 +71,18 @@ public class Tank
 
         for (Tank tank : GameClient.getInstance().getEnemies())
         {
-            if (rectangle.intersects(tank.getRectangle()))
+            if (tank != this && rectangle.intersects(tank.getRectangle()))
             {
                 y = oldY;
                 x = oldX;
                 break;
             }
+        }
+
+        if (this.enemy && rectangle.intersects(GameClient.getInstance().getTank().getRectangle()))
+        {
+            y = oldY;
+            x = oldX;
         }
 
         g.drawImage(getImage(), x, y, null);
@@ -203,5 +213,23 @@ public class Tank
     public int getHp()
     {
         return hp;
+    }
+
+    private final Random random = new Random();
+    private int step = random.nextInt(12);
+
+    public void randomMove()
+    {
+        Direction[] dirs = Direction.values();
+        if (step <= 0)
+        {
+            step = random.nextInt(12);
+            direction = dirs[random.nextInt(dirs.length)];
+            if (random.nextBoolean())
+            {
+                fire();
+            }
+        }
+        step--;
     }
 }
