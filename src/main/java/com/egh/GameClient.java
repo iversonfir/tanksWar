@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameClient extends JComponent
 {
@@ -23,6 +24,7 @@ public class GameClient extends JComponent
     private final List<Wall> walls;
     private final List<Missile> missiles;
     private final List<Explosion> explosions;
+    private final AtomicInteger enemyKilled = new AtomicInteger(0);
 
     public List<Wall> getWalls()
     {
@@ -59,8 +61,8 @@ public class GameClient extends JComponent
         return Arrays.asList(
                 new Wall(200, 140, true, 15),
                 new Wall(200, 540, true, 15),
-                new Wall(100, 80, false, 15),
-                new Wall(700, 80, false, 15)
+                new Wall(100, 160, false, 12),
+                new Wall(700, 160, false, 12)
         );
     }
 
@@ -93,8 +95,18 @@ public class GameClient extends JComponent
         }
         else
         {
+            g.setColor(Color.WHITE);
+            g.setFont(new Font(null, Font.BOLD, 16));
+            g.drawString("Missiles: " + missiles.size(), 10, 30);
+            g.drawString("Explosions: " + explosions.size(), 10, 50);
+            g.drawString("Player Tank Hp: " + tank.getHp(), 10, 70);
+            g.drawString("Enemy Left: " + enemies.size(), 10, 90);
+            g.drawString("Enemy Killed: " + enemyKilled.get(), 10, 110);
+
             tank.draw(g);
+            int count = enemies.size();
             enemies.removeIf(t -> !t.isLive());
+            enemyKilled.addAndGet(count - enemies.size());
             if (enemies.isEmpty())
             {
                 restart();
