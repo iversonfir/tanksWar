@@ -12,7 +12,8 @@ public class Tank
     private final boolean enemy;
     private final static int SPEED = 5;
     private boolean live = true;
-    private int hp = 100;
+    private int hp = MAX_HP;
+    private static final int MAX_HP = 100;
 
     public Tank(int x, int y, Direction direction)
     {
@@ -114,15 +115,29 @@ public class Tank
 
         if (!enemy)
         {
-            g.setColor(Color.WHITE);
-            g.fillRect(x, y - 10, getImage().getWidth(null), 10);
+            drawBloodBar(g);
 
-            g.setColor(Color.RED);
-            int width = hp * getImage().getWidth(null) / 100;
-            g.fillRect(x, y - 10, width, 10);
+            Blood blood = GameClient.getInstance().getBlood();
+            if (blood.isLive() &&
+                    rectangle.intersects(blood.getRectangle()))
+            {
+                hp = MAX_HP;
+                blood.setLive(false);
+            }
+
         }
 
         g.drawImage(getImage(), x, y, null);
+    }
+
+    private void drawBloodBar(Graphics g)
+    {
+        g.setColor(Color.WHITE);
+        g.fillRect(x, y - 10, getImage().getWidth(null), 10);
+
+        g.setColor(Color.RED);
+        int width = hp * getImage().getWidth(null) / MAX_HP;
+        g.fillRect(x, y - 10, width, 10);
     }
 
     Rectangle getRectangle()
@@ -246,5 +261,10 @@ public class Tank
             }
         }
         step--;
+    }
+
+    public boolean isDying()
+    {
+        return hp <= MAX_HP * 0.5;
     }
 }

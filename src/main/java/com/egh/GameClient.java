@@ -25,6 +25,7 @@ public class GameClient extends JComponent
     private final List<Missile> missiles;
     private final List<Explosion> explosions;
     private final AtomicInteger enemyKilled = new AtomicInteger(0);
+    private final Blood blood;
     private static final int RAW_ENEMIES_AMOUNT = 3;
     private static final int COLUMN_ENEMIES_AMOUNT = 5;
 
@@ -55,6 +56,7 @@ public class GameClient extends JComponent
         this.explosions = new ArrayList<>();
         this.walls = wallsInit();
         enemiesInit();
+        this.blood = new Blood(400, 250);
         this.setPreferredSize(new Dimension(800, 600));
     }
 
@@ -62,6 +64,12 @@ public class GameClient extends JComponent
     {
         return tank;
     }
+
+    public Blood getBlood()
+    {
+        return blood;
+    }
+
 
     private List<Wall> wallsInit()
     {
@@ -98,6 +106,14 @@ public class GameClient extends JComponent
             drawWalls(g);
             drawMissiles(g);
             drawExplosions(g);
+            if (tank.isDying())
+            {
+                blood.setLive(true);
+            }
+            if (blood.isLive())
+            {
+                blood.draw(g);
+            }
             return;
         }
 
