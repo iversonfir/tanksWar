@@ -148,22 +148,21 @@ public class Tank
     private boolean up, down, left, right;
     private boolean stopped;
 
-
     public void keyPressed(KeyEvent e)
     {
         switch (e.getKeyCode())
         {
             case KeyEvent.VK_UP:
-                up = true;
+                code |= Direction.UP.code;
                 break;
             case KeyEvent.VK_DOWN:
-                down = true;
+                code |= Direction.DOWN.code;
                 break;
             case KeyEvent.VK_LEFT:
-                left = true;
+                code |= Direction.LEFT.code;
                 break;
             case KeyEvent.VK_RIGHT:
-                right = true;
+                code |= Direction.RIGHT.code;
                 break;
             case KeyEvent.VK_CONTROL:
                 fire();
@@ -198,21 +197,26 @@ public class Tank
         GameClient.getInstance().add(missile);
     }
 
+    // 左上 code=10->   1010
+    //當鬆開上方時        0010
+    // code=8 ->       1000
+    // 所以是 XOR 也就是 11 、00  都是 01是1
+
     public void keyReleased(KeyEvent e)
     {
         switch (e.getKeyCode())
         {
             case KeyEvent.VK_UP:
-                up = false;
+                code ^= Direction.UP.code;
                 break;
             case KeyEvent.VK_DOWN:
-                down = false;
+                code ^= Direction.DOWN.code;
                 break;
             case KeyEvent.VK_LEFT:
-                left = false;
+                code ^= Direction.LEFT.code;
                 break;
             case KeyEvent.VK_RIGHT:
-                right = false;
+                code ^= Direction.RIGHT.code;
                 break;
         }
     }
@@ -224,23 +228,19 @@ public class Tank
         y += direction.y * SPEED;
     }
 
+    private int code;
+
     private void determinedDirection()
     {
-        if (!up && !down && !left && !right)
+        Direction newDirection = Direction.get(code);
+
+        if (newDirection == null)
         {
             stopped = true;
         }
         else
         {
-            if (up && !down && !left && !right) direction = Direction.UP;
-            else if (!up && down && !left && !right) direction = Direction.DOWN;
-            else if (!up && !down && left && !right) direction = Direction.LEFT;
-            else if (!up && !down && !left && right) direction = Direction.RIGHT;
-            else if (up && !down && left && !right) direction = Direction.LEFT_UP;
-            else if (up && !down && !left && right) direction = Direction.RIGHT_UP;
-            else if (!up && down && left && !right) direction = Direction.LEFT_DOWN;
-            else if (!up && down && !left && right) direction = Direction.RIGHT_DOWN;
-
+            direction = newDirection;
             stopped = false;
         }
     }
@@ -266,5 +266,10 @@ public class Tank
     public boolean isDying()
     {
         return hp <= MAX_HP * 0.5;
+    }
+
+    public static void main(String[] args)
+    {
+        System.out.println(5 ^ 4);
     }
 }
