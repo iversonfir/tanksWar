@@ -27,6 +27,31 @@ public class Tank
         this.enemy = enemy;
     }
 
+    public boolean isEnemy()
+    {
+        return enemy;
+    }
+
+    public boolean isLive()
+    {
+        return live;
+    }
+
+    public void setLive(boolean live)
+    {
+        this.live = live;
+    }
+
+    public void setHp(int hp)
+    {
+        this.hp = hp;
+    }
+
+    public int getHp()
+    {
+        return hp;
+    }
+
     public Image getImage()
     {
         String prefix = enemy ? "e" : "";
@@ -203,31 +228,6 @@ public class Tank
 
             stopped = false;
         }
-    }
-
-    public boolean isEnemy()
-    {
-        return enemy;
-    }
-
-    public boolean isLive()
-    {
-        return live;
-    }
-
-    public void setLive(boolean live)
-    {
-        this.live = live;
-    }
-
-    public void setHp(int hp)
-    {
-        this.hp = hp;
-    }
-
-    public int getHp()
-    {
-        return hp;
     }
 
     private final Random random = new Random();

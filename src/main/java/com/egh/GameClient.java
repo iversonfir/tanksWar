@@ -25,6 +25,8 @@ public class GameClient extends JComponent
     private final List<Missile> missiles;
     private final List<Explosion> explosions;
     private final AtomicInteger enemyKilled = new AtomicInteger(0);
+    private static final int RAW_ENEMIES_AMOUNT = 3;
+    private static final int COLUMN_ENEMIES_AMOUNT = 5;
 
     public List<Wall> getWalls()
     {
@@ -51,12 +53,17 @@ public class GameClient extends JComponent
         tankInit();
         this.missiles = new ArrayList<>();
         this.explosions = new ArrayList<>();
-        this.walls = wallsCreate();
-        enemiesInit(3, 5);
+        this.walls = wallsInit();
+        enemiesInit();
         this.setPreferredSize(new Dimension(800, 600));
     }
 
-    private List<Wall> wallsCreate()
+    public Tank getTank()
+    {
+        return tank;
+    }
+
+    private List<Wall> wallsInit()
     {
         return Arrays.asList(
                 new Wall(200, 140, true, 15),
@@ -66,12 +73,12 @@ public class GameClient extends JComponent
         );
     }
 
-    private void enemiesInit(int raw, int column)
+    private void enemiesInit()
     {
         enemies = new ArrayList<>();
-        for (int i = 0; i < raw; i++)
+        for (int i = 0; i < RAW_ENEMIES_AMOUNT; i++)
         {
-            for (int j = 0; j < column; j++)
+            for (int j = 0; j < COLUMN_ENEMIES_AMOUNT; j++)
             {
                 enemies.add(new Tank(300 + j * 50, 400 + 40 * i, Direction.UP, true));
             }
@@ -81,61 +88,95 @@ public class GameClient extends JComponent
     @Override
     protected void paintComponent(Graphics g)
     {
+        drawBackGround(g);
+
+        if (tank.isLive())
+        {
+            drawScoreBoard(g);
+            tank.draw(g);
+            drawEnemies(g);
+            drawWalls(g);
+            drawMissiles(g);
+            drawExplosions(g);
+            return;
+        }
+
+        drawGameOver(g);
+    }
+
+    private void drawBackGround(Graphics g)
+    {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, 800, 600);
+    }
 
-        if (!tank.isLive())
+    private void drawGameOver(Graphics g)
+    {
+        g.setColor(Color.RED);
+        g.setFont(new Font(null, Font.BOLD, 100));
+        g.drawString("Game Over", 100, 200);
+
+        g.setFont(new Font(null, Font.BOLD, 60));
+        g.drawString("Press F2 Restart", 130, 360);
+    }
+
+    private void drawExplosions(Graphics g)
+    {
+        explosions.removeIf(e -> !e.isLive());
+        for (Explosion explosion : explosions)
         {
-            g.setColor(Color.RED);
-            g.setFont(new Font(null, Font.BOLD, 100));
-            g.drawString("Game Over", 100, 200);
-
-            g.setFont(new Font(null, Font.BOLD, 60));
-            g.drawString("Press F2 Restart", 130, 360);
+            explosion.draw(g);
         }
-        else
+    }
+
+    private void drawMissiles(Graphics g)
+    {
+        missiles.removeIf(m -> !m.isLive());
+        for (Missile missile : missiles)
         {
-            g.setColor(Color.WHITE);
-            g.setFont(new Font(null, Font.BOLD, 16));
-            g.drawString("Missiles: " + missiles.size(), 10, 30);
-            g.drawString("Explosions: " + explosions.size(), 10, 50);
-            g.drawString("Player Tank Hp: " + tank.getHp(), 10, 70);
-            g.drawString("Enemy Left: " + enemies.size(), 10, 90);
-            g.drawString("Enemy Killed: " + enemyKilled.get(), 10, 110);
-
-            tank.draw(g);
-            int count = enemies.size();
-            enemies.removeIf(t -> !t.isLive());
-            enemyKilled.addAndGet(count - enemies.size());
-            if (enemies.isEmpty())
-            {
-                restart();
-            }
-
-            for (Tank enemy : enemies)
-            {
-                enemy.draw(g);
-            }
-            for (Wall wall : walls)
-            {
-                wall.draw(g);
-            }
-            missiles.removeIf(m -> !m.isLive());
-            for (Missile missile : missiles)
-            {
-                missile.draw(g);
-            }
-            explosions.removeIf(e -> !e.isLive());
-            for (Explosion explosion : explosions)
-            {
-                explosion.draw(g);
-            }
+            missile.draw(g);
         }
+    }
+
+    private void drawWalls(Graphics g)
+    {
+        for (Wall wall : walls)
+        {
+            wall.draw(g);
+        }
+    }
+
+    private void drawEnemies(Graphics g)
+    {
+        int count = enemies.size();
+        enemies.removeIf(t -> !t.isLive());
+        enemyKilled.addAndGet(count - enemies.size());
+
+        if (enemies.isEmpty())
+        {
+            enemiesInit();
+        }
+
+        for (Tank enemy : enemies)
+        {
+            enemy.draw(g);
+        }
+    }
+
+    private void drawScoreBoard(Graphics g)
+    {
+        g.setColor(Color.WHITE);
+        g.setFont(new Font(null, Font.BOLD, 16));
+        g.drawString("Missiles: " + missiles.size(), 10, 30);
+        g.drawString("Explosions: " + explosions.size(), 10, 50);
+        g.drawString("Player Tank Hp: " + tank.getHp(), 10, 70);
+        g.drawString("Enemy Left: " + enemies.size(), 10, 90);
+        g.drawString("Enemy Killed: " + enemyKilled.get(), 10, 110);
     }
 
     public void restart()
     {
-        enemiesInit(3, 5);
+        enemiesInit();
         tankInit();
     }
 
@@ -188,10 +229,5 @@ public class GameClient extends JComponent
                 e.printStackTrace();
             }
         }
-    }
-
-    public Tank getTank()
-    {
-        return tank;
     }
 }
